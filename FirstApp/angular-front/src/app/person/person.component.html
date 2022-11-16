@@ -1,0 +1,63 @@
+<div *ngIf="persons" class="container d-flex">
+
+    <div class="card  col-7">
+        <div class="card-header">
+            <h3 class="text-center">List of Persons</h3>
+        </div>
+        <div class="card-doby">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Nro</th>
+                        <th>Full Name</th>
+                        <th>Created</th>
+                        <th>Done</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let person of persons" class="text-start">
+                        <td>{{person.id}}</td>
+                        <td>{{person.first + ' '+ person.last}}</td>
+                        <td>{{getFormat(person.created)}} </td>
+                        <td *ngIf="person.completed; else incompleted"><i class="bi bi-check-circle" style="color: green;"></i></td>
+                        <ng-template #incompleted>
+                            <td><i class="bi bi-stopwatch" style="color: red;"></i></td>
+                        </ng-template>
+                        <td>
+                            <button (click)="goEdit(person)" class="btn btn-warning">Edit</button>
+                            <button (click)="goDelete(person.id)" class="btn btn-danger" style="margin-left: 5px;">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-1"></div>
+
+    <div class=" card col-4">
+        <div class="card-header">
+            <h3 class="text-center">{{!editing ? "Adding a person" : "Editing a person"}}</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="addForm" (ngSubmit)="onSubmitAdd()">
+                <div class="mb-3">
+                    <label class="form-label"><strong>First name</strong></label>
+                    <input formControlName="fcFirst" type="text" class="form-control" placeholder="first name...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><strong>Last name</strong></label>
+                    <input formControlName="fcLast" type="text" class="form-control" placeholder="last name...">
+                </div>
+                <input type="submit" class="btn btn-success" value="Submit">
+                <button *ngIf="editing" onclick="goAdd()" class="btn btn-danger" style="margin-left: 5px;">Cancel</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!-- <ng-container #isLoading>
+    <app-load></app-load>
+</ng-container> -->
