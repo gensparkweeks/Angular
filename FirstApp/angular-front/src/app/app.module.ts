@@ -7,12 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceService } from './service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadComponent } from './load/load.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PersonComponent,
-    LoadComponent
+    LoadComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

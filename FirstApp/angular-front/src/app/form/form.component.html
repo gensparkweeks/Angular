@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Reactive Form</h1>
+
+    <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-4 mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" placeholder="full name" formControlName="fullname">
+                <span *ngIf="fullname?.invalid && fullname?.touched" class="danger">Required</span>
+            </div>
+            <div class="col-3 mb-3">
+                <label class="form-label">Age</label>
+                <input type="text" class="form-control" placeholder="age" formControlName="age">
+                <span *ngIf="age?.invalid && age?.touched" class="danger">Required and greather than zero </span>
+            </div>
+        </div>
+        <div class="col-4 mb-3">
+            <label class="form-label">Email address</label>
+            <input formControlName="email" type="email" class="form-control" placeholder="name@example.com">
+            <span *ngIf="email?.invalid && email?.touched" class="danger">Invalid email format</span>
+        </div>
+
+        <div class="mb-3 col-3">
+            <label class="form-label">Mobile</label>
+            <input formControlName="phone" type="tel" class="form-control" placeholder="333-444-5555">
+            <span *ngIf="phone?.invalid && phone?.touched" class="danger">Required and 10 numbers</span>
+        </div>
+        <input [disabled]="!reactiveForm.valid" type="submit" value="Submit" class="btn btn-success">
+    </form>
+
+</div>
