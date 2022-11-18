@@ -51,8 +51,9 @@
                     <input formControlName="fcLast" type="text" class="form-control" placeholder="last name...">
                 </div>
                 <input type="submit" class="btn btn-success" value="Submit">
-                <button *ngIf="editing" onclick="goCancel()" class="btn btn-danger" style="margin-left: 5px;">Cancel</button>
+                <button *ngIf="editing" (click)="goCancel()" class="btn btn-danger" style="margin-left: 5px;">Cancel</button>
             </form>
+
         </div>
 
     </div>

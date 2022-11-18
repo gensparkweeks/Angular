@@ -18,6 +18,7 @@ export class PersonComponent implements OnInit {
   personUpdate: Persona = new Persona();
   isError:boolean = false;
   editing = false;
+  isCancel = false;
 
   addForm:FormGroup = new FormGroup({
     fcFirst: new FormControl(''),
@@ -43,16 +44,26 @@ export class PersonComponent implements OnInit {
  }
 
  goEdit(person: Persona): void{
+
+  this.isCancel = false;
+
   localStorage.setItem("id", person.id.toString());
   this.addForm.patchValue({
     fcFirst: person.first,
     fcLast: person.last
   })
   this.editing = true;
+  console.log('goEdit isCancel:'+this.isCancel)
  }
 
  goCancel(){
   this.editing = false;
+  this.isCancel = true;
+
+  this.personAdd.first = '';
+  this.personAdd.last = '';
+
+  this.updateForm();
  }
 
  goDelete(id:number){
@@ -67,16 +78,17 @@ export class PersonComponent implements OnInit {
  }
 
  onSubmitAdd(){
-
-  this.personAdd.first = this.addForm.controls['fcFirst'].value;
-  this.personAdd.last = this.addForm.controls['fcLast'].value;
-  this.personAdd.created = new Date();
-  this.personAdd.completed = true;
   
   if (!this.editing){
+    this.personAdd.first = this.addForm.controls['fcFirst'].value;
+    this.personAdd.last = this.addForm.controls['fcLast'].value;
+    this.personAdd.created = new Date();
+    this.personAdd.completed = true;
+
     this.service.addPersona(this.personAdd)
     .subscribe(data => console.log(data))
-  }else{
+
+  }else  {
     this.personUpdate.id = Number(localStorage.getItem('id'));
     this.personUpdate.first = this.addForm.controls['fcFirst'].value;
     this.personUpdate.last = this.addForm.controls['fcLast'].value;
@@ -84,8 +96,7 @@ export class PersonComponent implements OnInit {
     this.personUpdate.completed = true;
 
     console.log(this.personUpdate)
-    console.log('Edit: ' + this.editing)
-    //alert('Info')
+    console.log('Edit: isediting' + this.editing)
 
     this.service.updatePersona(this.personUpdate)
     .subscribe(data => console.log(data))
