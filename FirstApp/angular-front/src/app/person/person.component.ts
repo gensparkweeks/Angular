@@ -4,7 +4,7 @@ import { Persona } from '../model/Persona';
 import { ServiceService } from '../service.service';
 import * as moment from 'moment'
 import { FormControl, FormGroup } from '@angular/forms';
-import { PersonPost } from '../model/PersonPost';
+import { PersonAdd } from '../model/PersonAdd';
 
 @Component({
   selector: 'app-person',
@@ -14,8 +14,9 @@ import { PersonPost } from '../model/PersonPost';
 export class PersonComponent implements OnInit {
 
   persons: Persona[] = [];
-  personAdd: PersonPost = new PersonPost();
-  public isError:boolean = true;
+  personAdd: PersonAdd = new PersonAdd();
+  personUpdate: Persona = new Persona();
+  isError:boolean = false;
   editing = false;
 
   addForm:FormGroup = new FormGroup({
@@ -29,7 +30,7 @@ export class PersonComponent implements OnInit {
     this.service.getPersons()
       .subscribe(
         data => this.persons = data,
-        error => this.isError = error.ok
+        error => this.isError = false
       )
   }
 
@@ -50,28 +51,45 @@ export class PersonComponent implements OnInit {
   this.editing = true;
  }
 
- goAdd(){
+ goCancel(){
   this.editing = false;
  }
 
  goDelete(id:number){
-  console.log('goDelete: ' + id)
   this.service.deleteById(id);
 
+  this.updateForm();
+ }
+
+ updateForm(){
   this.getPersons();
   window.location.reload()
  }
 
  onSubmitAdd(){
+
   this.personAdd.first = this.addForm.controls['fcFirst'].value;
   this.personAdd.last = this.addForm.controls['fcLast'].value;
   this.personAdd.created = new Date();
   this.personAdd.completed = true;
   
-  this.service.addPersona(this.personAdd)
+  if (!this.editing){
+    this.service.addPersona(this.personAdd)
     .subscribe(data => console.log(data))
+  }else{
+    this.personUpdate.id = Number(localStorage.getItem('id'));
+    this.personUpdate.first = this.addForm.controls['fcFirst'].value;
+    this.personUpdate.last = this.addForm.controls['fcLast'].value;
+    this.personUpdate.created = new Date();
+    this.personUpdate.completed = true;
 
-  this.getPersons();
-  window.location.reload()
+    console.log(this.personUpdate)
+    console.log('Edit: ' + this.editing)
+    //alert('Info')
+
+    this.service.updatePersona(this.personUpdate)
+    .subscribe(data => console.log(data))
+  }
+  this.updateForm();
  }
 }

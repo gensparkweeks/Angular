@@ -13,9 +13,9 @@ export class FormComponent implements OnInit {
 
   reactiveForm = new FormGroup({
     fullname: new FormControl('', Validators.required),
-    age: new FormControl('', [Validators.min(1), Validators.required]),
+    age: new FormControl(0, [Validators.min(1), Validators.required]),
     email: new FormControl('', [Validators.email, Validators.required]),
-    phone: new FormControl('', [Validators.maxLength(12), Validators.required])
+    phone: new FormControl('', [Validators.minLength(12), Validators.required])
   })
 
   get fullname() { return this.reactiveForm.get('fullname'); }

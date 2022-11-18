@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { Persona } from './model/Persona';
-import {PersonPost} from './model/PersonPost'
+import {PersonAdd} from './model/PersonAdd'
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class ServiceService {
     return this.http.get<Persona[]>(this.url);
   }
 
-  addPersona(persona: PersonPost){
+  addPersona(persona: PersonAdd){
     return this.http.post<Persona>(this.url , persona);
   }
 

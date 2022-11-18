@@ -1,4 +1,4 @@
-<div *ngIf="persons" class="container d-flex">
+<div *ngIf="persons.length > 0" class="container d-flex">
 
     <div class="card  col-7">
         <div class="card-header">
@@ -51,13 +51,13 @@
                     <input formControlName="fcLast" type="text" class="form-control" placeholder="last name...">
                 </div>
                 <input type="submit" class="btn btn-success" value="Submit">
-                <button *ngIf="editing" onclick="goAdd()" class="btn btn-danger" style="margin-left: 5px;">Cancel</button>
+                <button *ngIf="editing" onclick="goCancel()" class="btn btn-danger" style="margin-left: 5px;">Cancel</button>
             </form>
         </div>
 
     </div>
 </div>
 
-<!-- <ng-container #isLoading>
+<ng-container *ngIf="persons.length === 0 || isError">
     <app-load></app-load>
-</ng-container> -->
+</ng-container>
